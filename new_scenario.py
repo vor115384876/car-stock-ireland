@@ -75,7 +75,8 @@ def get_new_car_count(year_models, baseline_models):
 def generate_next_year(year_models, full_sales, rounded_car_count, fuel):
     latest_year = year_models[-1]
     year = latest_year._year + 1
-    SALE_CONSTANT = 0.71
+    SALE_CONSTANT = 0.71 - 0.03*(latest_year._year - 2007)
+    print("percentage petrol this year is " + str(SALE_CONSTANT))
     SALE_PERCENTAGE =  SALE_CONSTANT if fuel is constants.PETROL else 1 - SALE_CONSTANT
     
     new_cars_by_f_type = round(full_sales*SALE_PERCENTAGE)
