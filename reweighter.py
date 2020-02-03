@@ -1,4 +1,5 @@
 import csv
+from utils.salespercentage import get_sales_percentage
 from constants import constants
 from models.base_model import ConstantBaseModel
 from utils.generators import generate_constants, generate_year_models, list_prod, get_model_by_year
@@ -56,8 +57,8 @@ def write_to_csv(new_distances, fuel):
     base_dist = generate_constants(fuel_type=fuel,constant_type=constants.d_travelled)[:8]
     old_dist = [list(map(int, x)) for x in base_dist]
     full_new_distances = old_dist + new_distances
-    # print(full_new_distances)
-    with open(f'static_constants/{fuel}/new_distance_travelled.csv', "w") as f:
+    print(full_new_distances)
+    with open(f'static_constants/{fuel}/new_distance_travelled.csv', "w", newline='') as f:
         writer = csv.writer(f)
         writer.writerows(full_new_distances)
 
@@ -88,7 +89,8 @@ for i in range(1,12):
     # print(d_avg)
     # print(d_co_eff)
     # print(d_co_eff)
-    total_new_diesel_pc = d_co_eff*0.21
+
+    total_new_diesel_pc = d_co_eff*get_sales_percentage(fuel_type=constants.DIESEL,year=bl_model_d._year, scenario_2=constants.scenario_2)
     # print(total_new_diesel_pc)
     total_new_diesel_pk = round(total_new_diesel_pc* bl_total_pass_kms)
     total_new_petrol_pk = bl_total_pass_kms - total_new_diesel_pk
@@ -121,12 +123,12 @@ for i in range(1,12):
     print()
 
 
-    print("baseline")
-    print(bl_total_pass_kms)
-    print("new")
-    dist_d = list_prod(future_car_count_d, Cd)
-    dist_p = list_prod(future_car_count_p, Cp)
-    print(sum(dist_d)+sum(dist_p)-bl_total_pass_kms)
+    # print("baseline")
+    # print(bl_total_pass_kms)
+    # print("new")
+    # dist_d = list_prod(future_car_count_d, Cd)
+    # dist_p = list_prod(future_car_count_p, Cp)
+   # print(sum(dist_d)+sum(dist_p)-bl_total_pass_kms)
 
     final_cd = list(map(int, Cd))
     final_cp = list(map(int, Cp))
@@ -135,7 +137,9 @@ for i in range(1,12):
     final_cp.insert(0, constants.BASE_YEAR+i)
 
     d_dist.append(final_cd)
+    # print(f'd_dist: {d_dist}')
     p_dist.append(final_cp)
+    # print(f'p_dist: {p_dist}')
 
 write_to_csv(d_dist, constants.DIESEL)
 write_to_csv(p_dist, constants.PETROL)

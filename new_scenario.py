@@ -4,6 +4,7 @@ from constants import constants
 from models.base_model import BaseModel, ConstantBaseModel
 from survival_rate import calc_survival_rate
 from utils.generators import generate_constants, generate_year_models, list_prod, get_model_by_year
+from utils.salespercentage import get_sales_percentage
 
 
 
@@ -75,8 +76,7 @@ def get_new_car_count(year_models, baseline_models):
 def generate_next_year(year_models, full_sales, rounded_car_count, fuel):
     latest_year = year_models[-1]
     year = latest_year._year + 1
-    SALE_CONSTANT = 0.71
-    SALE_PERCENTAGE =  SALE_CONSTANT if fuel is constants.PETROL else 1 - SALE_CONSTANT
+    SALE_PERCENTAGE = get_sales_percentage(fuel_type=fuel,year=year,scenario_2=constants.scenario_2)
     
     new_cars_by_f_type = round(full_sales*SALE_PERCENTAGE)
     

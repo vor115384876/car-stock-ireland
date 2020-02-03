@@ -3,6 +3,7 @@ class constants:
 
     PETROL="petrol"
     DIESEL="diesel"
+    scenario_2 = False
 
     # change these
     f_type = DIESEL
