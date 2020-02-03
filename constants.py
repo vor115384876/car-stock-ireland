@@ -5,7 +5,7 @@ class constants:
     DIESEL="diesel"
 
     # change these
-    f_type = DIESEL
+    f_type = PETROL
     start_year=2001
     end_year=2019
 
