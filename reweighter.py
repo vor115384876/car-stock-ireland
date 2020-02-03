@@ -29,11 +29,14 @@ def get_pkm_for_year(base_model, fuel):
 def get_A_matrices(baseline_model_d, baseline_model_p):
     bl_avg_dists_diesel = get_bl_avg_dists(baseline_model_d, constants.DIESEL)
     bl_avg_dists_petrol = get_bl_avg_dists(baseline_model_p, constants.PETROL)
+    print("ah")
+    print(bl_avg_dists_petrol)
 
     bl_pass_kms_diesel = get_pkm_for_year(baseline_model_d, constants.DIESEL)
     bl_pass_kms_petrol= get_pkm_for_year(baseline_model_p, constants.PETROL)
 
     bl_total_pass_kms = sum(bl_pass_kms_diesel + bl_pass_kms_petrol)
+
     total_cars = sum(baseline_model_d.get_cat_counts())+sum(baseline_model_p.get_cat_counts())
     overall_avg = bl_total_pass_kms/total_cars
 
@@ -65,41 +68,64 @@ for i in range(1,12):
     bl_model_d = get_model_by_year(bl_models_d, constants.BASE_YEAR+i)
     bl_model_p = get_model_by_year(bl_models_p, constants.BASE_YEAR+i)  
 
-    Adiesel, Apetrol, bl_total_pass_kms, overall_avg = get_A_matrices(bl_model_d, bl_model_p)
-    # print(Adiesel)
-    # print("vs")
-    # print(Apetrol)
-    print(overall_avg)
+    # Adiesel, Apetrol, bl_total_pass_kms, overall_avg = get_A_matrices(bl_model_d, bl_model_p)
 
+    bl_pass_kms_diesel = get_pkm_for_year(bl_model_d, constants.DIESEL)
+    bl_pass_kms_petrol= get_pkm_for_year(bl_model_p, constants.PETROL)
+    car_total_d = sum(bl_model_d.get_cat_counts())
+    car_total_p = sum(bl_model_p.get_cat_counts())
+    bl_total_pass_kms = sum(bl_pass_kms_diesel + bl_pass_kms_petrol)
+    total_cars = car_total_d + car_total_p
+
+    d_share = car_total_d/total_cars
+    d_dist_share = sum(bl_pass_kms_diesel)/bl_total_pass_kms
+    d_avg = sum(bl_pass_kms_diesel)/car_total_d
+    d_co_eff = d_dist_share/d_share
+
+    print(f'Year: {constants.BASE_YEAR+i}.')
+    # print(d_share)
+    # print(d_dist_share)
+    # print(d_avg)
+    # print(d_co_eff)
+    # print(d_co_eff)
+    total_new_diesel_pc = d_co_eff*0.21
+    # print(total_new_diesel_pc)
+    total_new_diesel_pk = round(total_new_diesel_pc* bl_total_pass_kms)
+    total_new_petrol_pk = bl_total_pass_kms - total_new_diesel_pk
+    # print(bl_total_pass_kms)
+    # print()
+    # print(total_new_diesel_pk)
+    # print()
+    # print(total_new_petrol_pk)
+    # print()
+    # print(total_new_diesel_pk+total_new_petrol_pk)
     future_year_model_d = get_model_by_year(yr_models_d, constants.BASE_YEAR+i)
     future_year_model_p = get_model_by_year(yr_models_p, constants.BASE_YEAR+i)
 
-    dist_d = get_pkm_for_year(future_year_model_d, constants.DIESEL)
-    dist_p = get_pkm_for_year(future_year_model_d, constants.PETROL)
-    total_dis = sum(dist_d+dist_p)
-    print(f'Year: {constants.BASE_YEAR+i}.')
-    # print(bl_total_pass_kms)
-    # print(total_dis)
-    # print(bl_car_cat_count)
+    future_car_count_d = future_year_model_d.get_cat_counts()
+    future_car_count_p = future_year_model_p.get_cat_counts()
+
+    new_diesel_avg = total_new_diesel_pk/sum(future_car_count_d)
+    new_petrol_avg = total_new_petrol_pk/sum(future_car_count_p)
+
+    print(new_diesel_avg)
+    print()
+    print(new_petrol_avg)
 
 
-    future_car_cat_count_d = future_year_model_d.get_cat_counts()
-    future_car_cat_count_p = future_year_model_p.get_cat_counts()
-    future_car_cat_count = future_car_cat_count_d + future_car_cat_count_p
-
-    Cd = get_c(A=Adiesel, B=future_car_cat_count, bl_tot_kms=bl_total_pass_kms)
-    Cp = get_c(A=Apetrol, B=future_car_cat_count, bl_tot_kms=bl_total_pass_kms)
+    Cd = [new_diesel_avg]*14
+    Cp = [new_petrol_avg]*14
 
     print(f'Year: {constants.BASE_YEAR+i}. Diesel: {Cd}')
     print(f'Year: {constants.BASE_YEAR+i}. Petrol: {Cp}')
     print()
 
 
-    # print("baseline")
-    # print(bl_total_pass_kms)
-    # print("new")
-    dist_d = list_prod(future_car_cat_count_d, Cd)
-    dist_p = list_prod(future_car_cat_count_p, Cp)
+    print("baseline")
+    print(bl_total_pass_kms)
+    print("new")
+    dist_d = list_prod(future_car_count_d, Cd)
+    dist_p = list_prod(future_car_count_p, Cp)
     print(sum(dist_d)+sum(dist_p)-bl_total_pass_kms)
 
     final_cd = list(map(int, Cd))
