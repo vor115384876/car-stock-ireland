@@ -57,7 +57,7 @@ def write_to_csv(new_distances, fuel):
     base_dist = generate_constants(fuel_type=fuel,constant_type=constants.d_travelled)[:8]
     old_dist = [list(map(int, x)) for x in base_dist]
     full_new_distances = old_dist + new_distances
-    print(full_new_distances)
+    # print(full_new_distances)
     with open(f'static_constants/{fuel}/new_distance_travelled.csv', "w", newline='') as f:
         writer = csv.writer(f)
         writer.writerows(full_new_distances)
