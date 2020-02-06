@@ -1,12 +1,21 @@
+import sys
 class constants:
     BASE_YEAR = 2007
 
     PETROL="petrol"
     DIESEL="diesel"
-    scenario_2 = False
+  
 
     # change these
     f_type = DIESEL
+    scenario_1 = False
+    scenario_2 = True
+    
+    if scenario_1 == True & scenario_2 == True:
+        sys.exit("Error in constants.py, cannot have two scenarios running at the same time, set one to False")
+         
+
+    
     start_year=2001
     end_year=2019
 

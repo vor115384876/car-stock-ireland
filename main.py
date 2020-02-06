@@ -4,21 +4,27 @@ from models.base_model import ConstantBaseModel
 from utils.generators import generate_constants, generate_year_models
 
 
-f_type = constants.PETROL
+f_type = constants.f_type
 
-simulation = True
 
-if simulation is True:
+if constants.scenario_1 is True:
     path = "new_models"
     dist = constants.new_d_travelled
-    name = "-sim"
+    name = "-scenario_1"
+
+elif constants.scenario_2 is True:
+    path = "new_models"
+    dist = constants.new_d_travelled
+    name = "-scenario_2"
+
 else:
     path = None
     dist = constants.d_travelled
     name = ""
 
-
+#breakpoint()
 yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=path)
+
 eff_band = generate_constants(fuel_type=f_type,constant_type=constants.f_band)
 rd_factor = generate_constants(fuel_type=f_type,constant_type=constants.r_factor)
 

@@ -3,7 +3,7 @@ from utils.salespercentage import get_sales_percentage
 from constants import constants
 from models.base_model import ConstantBaseModel
 from utils.generators import generate_constants, generate_year_models, list_prod, get_model_by_year
-
+#breakpoint()
 
 bl_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.start_year,end_year=constants.end_year)
 bl_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.start_year,end_year=constants.end_year)

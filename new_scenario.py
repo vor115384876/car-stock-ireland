@@ -21,6 +21,7 @@ baseline_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=
 def add_models(model_a, model_b):
     comb_model = {}
     yr =constants.start_year
+   # print(yr)
     for d_model,p_model in zip(model_a,model_a):
         both_model = [[d+p for d,p in zip(dies,petr)] for dies, petr in zip(d_model._data, p_model._data)]
         comb_model[yr] = both_model
@@ -76,7 +77,7 @@ def get_new_car_count(year_models, baseline_models):
 def generate_next_year(year_models, full_sales, rounded_car_count, fuel):
     latest_year = year_models[-1]
     year = latest_year._year + 1
-    SALE_PERCENTAGE = get_sales_percentage(fuel_type=fuel,year=year,scenario_2=constants.scenario_2)
+    SALE_PERCENTAGE = get_sales_percentage(fuel_type=fuel,year=year, scenario_1 = constants.scenario_1, scenario_2=constants.scenario_2)
     
     new_cars_by_f_type = round(full_sales*SALE_PERCENTAGE)
     
@@ -102,7 +103,7 @@ def final_step(year, cc, fuel):
     return new_year_model
 
 
-year = 2007
+year = constants.BASE_YEAR
 while year < constants.end_year-1:
     print(year)
     diesel_car_diff, diesel_count_car_count = get_new_car_count(yr_models_d, baseline_models_d)
