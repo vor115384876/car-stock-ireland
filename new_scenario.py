@@ -77,7 +77,7 @@ def get_new_car_count(year_models, baseline_models):
 def generate_next_year(year_models, full_sales, rounded_car_count, fuel):
     latest_year = year_models[-1]
     year = latest_year._year + 1
-    SALE_PERCENTAGE = get_sales_percentage(fuel_type=fuel,year=year, scenario_1 = constants.scenario_1, scenario_2=constants.scenario_2)
+    SALE_PERCENTAGE = get_sales_percentage(fuel_type=fuel,year=year)
     
     new_cars_by_f_type = round(full_sales*SALE_PERCENTAGE)
     
@@ -93,7 +93,10 @@ def write_year_model_to_csv(year_data, year, fuel):
     ids = list(range(16,-1,-1))
     [row.insert(0, i) for  i, row in zip(ids, year_data_to_write)]
     year_data_to_write.insert(0, header)
-    csv_file = f'new_models/{fuel}/{year}.csv'
+    if constants.scenario_1 = True:
+        csv_file = f'new_models/{fuel}/{year}.csv'
+    if constants.scenario_2 = True:
+        csv_file = f'new_models_scenario_2/{fuel}/{year}.csv'
     with open(csv_file, 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(year_data_to_write)

@@ -3,26 +3,24 @@ from constants import constants
 from models.base_model import ConstantBaseModel
 from utils.generators import generate_constants, generate_year_models
 
-
-f_type = constants.f_type
-
-
 if constants.scenario_1 is True:
     path = "new_models"
     dist = constants.new_d_travelled
     name = "-scenario_1"
 
 elif constants.scenario_2 is True:
-    path = "new_models"
+    path = "new_models_scenario_2"
     dist = constants.new_d_travelled
     name = "-scenario_2"
 
 else:
-    path = None
+    path = "year_model_inputs"
     dist = constants.d_travelled
     name = ""
 
-#breakpoint()
+f_type = constants.f_type
+
+#what does path=path mean?
 yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=path)
 
 eff_band = generate_constants(fuel_type=f_type,constant_type=constants.f_band)

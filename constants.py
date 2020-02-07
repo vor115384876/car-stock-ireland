@@ -4,15 +4,19 @@ class constants:
 
     PETROL="petrol"
     DIESEL="diesel"
-  
+    
+    f_band = "efficiency_bands"
+    r_factor = "on_road_factor"
+    d_travelled = "distance_travelled"
+    new_d_travelled = "new_distance_travelled"
 
     # change these
-    f_type = DIESEL
+    f_type = PETROL
     scenario_1 = False
     scenario_2 = True
-    
     if scenario_1 == True & scenario_2 == True:
         sys.exit("Error in constants.py, cannot have two scenarios running at the same time, set one to False")
+
          
 
     
@@ -24,7 +28,3 @@ class constants:
     FUEL_ENERGY_CONSTANT = 251.9/3.6 if f_type is PETROL else 263.9/3.6
 
 
-    f_band = "efficiency_bands"
-    r_factor = "on_road_factor"
-    d_travelled = "distance_travelled"
-    new_d_travelled = "new_distance_travelled"

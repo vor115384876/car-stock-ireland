@@ -1,10 +1,13 @@
 import csv
 from models.base_model import BaseModel
+from constants import constants
 
-def generate_year_models(fuel_type,start_year,end_year, path=None):
+def generate_year_models(fuel_type,start_year,end_year, path):
 #why is the path set to None here when in scenario mode in main.py path could be set to new_models
+    #breakpoint()
     model_list = []
-    PATH = path or "year_model_inputs"
+    #year_model_inputs refers to the ACTUAL new sales of each car 
+    PATH = path
     for year in range(start_year,end_year):
         # print(f'Opening the file: {year}.csv for fuel type: {fuel_type}')
         file_name = f'{PATH}/{fuel_type}/{year}.csv'
