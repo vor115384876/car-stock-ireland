@@ -16,8 +16,6 @@ baseline_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=
 baseline_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.start_year,end_year=constants.end_year)
 
 
-
-
 def add_models(model_a, model_b):
     comb_model = {}
     yr =constants.start_year
@@ -93,10 +91,7 @@ def write_year_model_to_csv(year_data, year, fuel):
     ids = list(range(16,-1,-1))
     [row.insert(0, i) for  i, row in zip(ids, year_data_to_write)]
     year_data_to_write.insert(0, header)
-    if constants.scenario_1 = True:
-        csv_file = f'new_models/{fuel}/{year}.csv'
-    if constants.scenario_2 = True:
-        csv_file = f'new_models_scenario_2/{fuel}/{year}.csv'
+    csv_file = f'scenario_{constants.scenario_type}/{fuel}/{year}.csv'
     with open(csv_file, 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(year_data_to_write)

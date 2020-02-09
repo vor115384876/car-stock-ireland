@@ -3,31 +3,20 @@ from constants import constants
 from models.base_model import ConstantBaseModel
 from utils.generators import generate_constants, generate_year_models
 
-if constants.scenario_1 is True:
-    path = "new_models"
-    dist = constants.new_d_travelled
-    name = "-scenario_1"
 
-elif constants.scenario_2 is True:
-    path = "new_models_scenario_2"
-    dist = constants.new_d_travelled
-    name = "-scenario_2"
 
-else:
-    path = "year_model_inputs"
-    dist = constants.d_travelled
-    name = ""
+
 
 f_type = constants.f_type
 
 #what does path=path mean?
-yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=path)
+yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
 
 eff_band = generate_constants(fuel_type=f_type,constant_type=constants.f_band)
 rd_factor = generate_constants(fuel_type=f_type,constant_type=constants.r_factor)
 
 
-dist_travelled = ConstantBaseModel(generate_constants(fuel_type=f_type,constant_type=dist))
+dist_travelled = ConstantBaseModel(generate_constants(fuel_type=f_type,constant_type=constants.d_travelled))
 
 new_rd_factor = [row[1:] for row in rd_factor]
 new_eff_band = [row[1:] for row in eff_band]
@@ -63,7 +52,7 @@ for sample_model in yr_models:
     em_dict.append({"year": str(sample_model._year), "emission" : total_em_in_kt, "consumption": total_ec})
 
 # this code outputs the year emissions to a csv
-csv_file = f'model_output/{f_type}-emissions{name}.csv'
+csv_file = f'model_output/{f_type}-emissions{constants.name}.csv'
 csv_columns = ["year","emission", "consumption"]
 with open(csv_file, 'w') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=csv_columns)

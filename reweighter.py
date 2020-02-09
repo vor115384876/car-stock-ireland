@@ -11,8 +11,8 @@ bl_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=consta
 yr_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.start_year,end_year=constants.end_year, path="new_models")
 yr_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.start_year,end_year=constants.end_year, path="new_models")
 
-dist_travelled_d = ConstantBaseModel(generate_constants(fuel_type=constants.DIESEL,constant_type=constants.d_travelled))
-dist_travelled_p = ConstantBaseModel(generate_constants(fuel_type=constants.PETROL,constant_type=constants.d_travelled))
+dist_travelled_d = ConstantBaseModel(generate_constants(fuel_type=constants.DIESEL,constant_type=constants.baseline_d_travelled))
+dist_travelled_p = ConstantBaseModel(generate_constants(fuel_type=constants.PETROL,constant_type=constants.baseline_d_travelled))
 
 def get_bl_avg_dists(base_model, fuel):
     if fuel is constants.DIESEL:
@@ -54,11 +54,11 @@ def get_c(A, B, bl_tot_kms):
 
 
 def write_to_csv(new_distances, fuel):
-    base_dist = generate_constants(fuel_type=fuel,constant_type=constants.d_travelled)[:8]
+    base_dist = generate_constants(fuel_type=fuel,constant_type=constants.baseline_d_travelled)[:8]
     old_dist = [list(map(int, x)) for x in base_dist]
     full_new_distances = old_dist + new_distances
     # print(full_new_distances)
-    with open(f'static_constants/{fuel}/new_distance_travelled.csv', "w", newline='') as f:
+    with open(f'static_constants/{fuel}/{constants.path}_distance_travelled.csv', "w", newline='') as f:
         writer = csv.writer(f)
         writer.writerows(full_new_distances)
 
@@ -90,7 +90,8 @@ for i in range(1,12):
     # print(d_co_eff)
     # print(d_co_eff)
 
-    total_new_diesel_pc = d_co_eff*get_sales_percentage(fuel_type=constants.DIESEL,year=bl_model_d._year, scenario_2=constants.scenario_2)
+    total_new_diesel_pc = d_co_eff*get_sales_percentage(fuel_type=constants.DIESEL,year=bl_model_d._year)
+    
     # print(total_new_diesel_pc)
     total_new_diesel_pk = round(total_new_diesel_pc* bl_total_pass_kms)
     total_new_petrol_pk = bl_total_pass_kms - total_new_diesel_pk

@@ -7,15 +7,24 @@ class constants:
     
     f_band = "efficiency_bands"
     r_factor = "on_road_factor"
-    d_travelled = "distance_travelled"
-    new_d_travelled = "new_distance_travelled"
+    
+    
 
     # change these
     f_type = PETROL
-    scenario_1 = False
-    scenario_2 = True
-    if scenario_1 == True & scenario_2 == True:
-        sys.exit("Error in constants.py, cannot have two scenarios running at the same time, set one to False")
+    scenario_type = 1
+
+    baseline_d_travelled = "scenario_0_distance_travelled"
+    baseline_path = "scenario_0"
+    baseline_name = "-scenario_0"
+
+    path = f'scenario_{scenario_type}'
+    name = f'-scenario_{scenario_type}'
+    d_travelled = f'scenario_{scenario_type}_distance_travelled'
+    # scenario_1 = False
+    # scenario_2 = True
+    # if scenario_1 == True & scenario_2 == True:
+    #     sys.exit("Error in constants.py, cannot have two scenarios running at the same time, set one to False")
 
          
 

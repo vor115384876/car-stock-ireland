@@ -2,7 +2,7 @@ import csv
 from models.base_model import BaseModel
 from constants import constants
 
-def generate_year_models(fuel_type,start_year,end_year, path):
+def generate_year_models(fuel_type,start_year,end_year, path=constants.baseline_path):
 #why is the path set to None here when in scenario mode in main.py path could be set to new_models
     #breakpoint()
     model_list = []
