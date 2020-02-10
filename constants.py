@@ -11,7 +11,7 @@ class constants:
     
 
     # change these
-    f_type = PETROL
+    f_type = DIESEL
     scenario_type = 2
 
     baseline_d_travelled = "scenario_0_distance_travelled"

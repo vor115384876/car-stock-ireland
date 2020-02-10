@@ -80,28 +80,16 @@ for i in range(1,12):
 
     d_share = car_total_d/total_cars
     d_dist_share = sum(bl_pass_kms_diesel)/bl_total_pass_kms
-    d_avg = sum(bl_pass_kms_diesel)/car_total_d
     d_co_eff = d_dist_share/d_share
 
     print(f'Year: {constants.BASE_YEAR+i}.')
-    # print(d_share)
-    # print(d_dist_share)
-    # print(d_avg)
-    # print(d_co_eff)
-    # print(d_co_eff)
 
     total_new_diesel_pc = d_co_eff*get_sales_percentage(fuel_type=constants.DIESEL,year=bl_model_d._year)
     
     # print(total_new_diesel_pc)
     total_new_diesel_pk = round(total_new_diesel_pc* bl_total_pass_kms)
     total_new_petrol_pk = bl_total_pass_kms - total_new_diesel_pk
-    # print(bl_total_pass_kms)
-    # print()
-    # print(total_new_diesel_pk)
-    # print()
-    # print(total_new_petrol_pk)
-    # print()
-    # print(total_new_diesel_pk+total_new_petrol_pk)
+
     future_year_model_d = get_model_by_year(yr_models_d, constants.BASE_YEAR+i)
     future_year_model_p = get_model_by_year(yr_models_p, constants.BASE_YEAR+i)
 
@@ -122,14 +110,6 @@ for i in range(1,12):
     print(f'Year: {constants.BASE_YEAR+i}. Diesel: {Cd}')
     print(f'Year: {constants.BASE_YEAR+i}. Petrol: {Cp}')
     print()
-
-
-    # print("baseline")
-    # print(bl_total_pass_kms)
-    # print("new")
-    # dist_d = list_prod(future_car_count_d, Cd)
-    # dist_p = list_prod(future_car_count_p, Cp)
-   # print(sum(dist_d)+sum(dist_p)-bl_total_pass_kms)
 
     final_cd = list(map(int, Cd))
     final_cp = list(map(int, Cp))
