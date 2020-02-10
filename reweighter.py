@@ -5,12 +5,12 @@ from models.base_model import ConstantBaseModel
 from utils.generators import generate_constants, generate_year_models, list_prod, get_model_by_year
 #breakpoint()
 
-bl_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.start_year,end_year=constants.end_year)
-bl_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.start_year,end_year=constants.end_year)
+bl_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.BASE_YEAR,end_year=constants.end_year)
+bl_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.BASE_YEAR,end_year=constants.end_year)
 
-yr_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.start_year,end_year=constants.end_year, path="new_models")
-yr_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.start_year,end_year=constants.end_year, path="new_models")
-
+yr_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.BASE_YEAR,end_year=constants.end_year, path="new_models")
+yr_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.BASE_YEAR,end_year=constants.end_year, path="new_models")
+#changes from start year 2001 to base year 2007
 dist_travelled_d = ConstantBaseModel(generate_constants(fuel_type=constants.DIESEL,constant_type=constants.baseline_d_travelled))
 dist_travelled_p = ConstantBaseModel(generate_constants(fuel_type=constants.PETROL,constant_type=constants.baseline_d_travelled))
 

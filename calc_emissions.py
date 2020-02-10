@@ -9,7 +9,7 @@ from utils.generators import generate_constants, generate_year_models
 
 f_type = constants.f_type
 
-#what does path=path mean?
+
 yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
 
 eff_band = generate_constants(fuel_type=f_type,constant_type=constants.f_band)
