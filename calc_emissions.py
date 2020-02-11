@@ -20,7 +20,7 @@ dist_travelled = ConstantBaseModel(generate_constants(fuel_type=f_type,constant_
 
 new_rd_factor = [row[1:] for row in rd_factor]
 new_eff_band = [row[1:] for row in eff_band]
-
+#breakpoint()
 consumption_per_km = [[((1+float(fb))*float(rf))/100 for fb, rf in zip(f_bs, r_fs)] for f_bs, r_fs in zip(new_rd_factor, new_eff_band)]
 new_consumption_per_km = []
 
