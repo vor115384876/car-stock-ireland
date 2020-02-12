@@ -30,7 +30,7 @@ for row in consumption_per_km:
     base_year += 1
 
 constant_model = ConstantBaseModel(new_consumption_per_km)
-
+breakpoint()
 
 em_dict = []
 for sample_model in yr_models:

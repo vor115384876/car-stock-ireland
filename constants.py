@@ -12,7 +12,7 @@ class constants:
 
     # change these
     f_type = DIESEL
-    scenario_type = 0
+    scenario_type = 1
 
     baseline_d_travelled = "scenario_0_distance_travelled"
     baseline_path = "scenario_0"

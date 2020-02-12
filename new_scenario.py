@@ -92,7 +92,7 @@ def write_year_model_to_csv(year_data, year, fuel):
     [row.insert(0, i) for  i, row in zip(ids, year_data_to_write)]
     year_data_to_write.insert(0, header)
     csv_file = f'scenario_{constants.scenario_type}/{fuel}/{year}.csv'
-    with open(csv_file, 'w') as csvfile:
+    with open(csv_file, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(year_data_to_write)
 
