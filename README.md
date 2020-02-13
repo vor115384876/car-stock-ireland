@@ -19,3 +19,8 @@ This project currently has 3 supported scenarios.
 For the baseline: set the `scenario_type` in `constants.py` to `0` and run the `calc_emissions.py` script.
 
 For scenario X: set the `scenario_type` in `constants.py` to `X`. Then run `new_scenario.py`. Then run `reweighter.py`. Finally run `calc_emissions.py`.
+    scenario 0 = actual sales and emissions
+    scenario 1 = no growth
+    scenario 2 = 3% diesel sale growth
+    scenario 3 = 2% diesel sale growth
+    scenario 4 = 1% diesel sale growth

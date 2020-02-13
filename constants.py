@@ -11,8 +11,13 @@ class constants:
     
 
     # change these
-    f_type = DIESEL
-    scenario_type = 1
+    f_type = PETROL
+    scenario_type = 4
+    #scenario 0 = actual sales and emissions
+    #scenario 1 = no growth
+    #scenario 2 = 3% diesel sale growth
+    #scenario 3 = 2% diesel sale growth
+    #scenario 4 = 1% diesel sale growth
 
     baseline_d_travelled = "scenario_0_distance_travelled"
     baseline_path = "scenario_0"

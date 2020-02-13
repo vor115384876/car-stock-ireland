@@ -30,7 +30,7 @@ for row in consumption_per_km:
     base_year += 1
 
 constant_model = ConstantBaseModel(new_consumption_per_km)
-breakpoint()
+
 
 em_dict = []
 for sample_model in yr_models:
@@ -54,7 +54,7 @@ for sample_model in yr_models:
 # this code outputs the year emissions to a csv
 csv_file = f'model_output/{f_type}-emissions{constants.name}.csv'
 csv_columns = ["year","emission", "consumption"]
-with open(csv_file, 'w') as csvfile:
+with open(csv_file, 'w', newline='') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
     writer.writeheader()
     for year in em_dict:
