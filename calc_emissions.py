@@ -39,6 +39,7 @@ for sample_model in yr_models:
     while base_year < sample_model._year:
         yr_consumption_per_km.append(constant_model.get_constant(year=base_year))
         base_year+=1
+    # do you calculate distance and consumption per km in an elementwise fashion? Doesn't seem clear
     dist_for_yr = dist_travelled.get_constant(year=sample_model._year)
     # [[print(float(numcar),float(cpk),float(dt)) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
     total_consumption_lt = [[float(numcar)*float(cpk)*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]

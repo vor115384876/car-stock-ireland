@@ -5,6 +5,7 @@ class constants:
     PETROL="petrol"
     DIESEL="diesel"
     
+    em_band = "emissions_bands"
     f_band = "efficiency_bands"
     r_factor = "on_road_factor"
     
