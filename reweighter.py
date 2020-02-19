@@ -10,8 +10,8 @@ PERCENTAGE_ERROR = 0.001
 bl_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.BASE_YEAR,end_year=constants.end_year)
 bl_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.BASE_YEAR,end_year=constants.end_year)
 
-yr_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.BASE_YEAR,end_year=constants.end_year, path="new_models")
-yr_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.BASE_YEAR,end_year=constants.end_year, path="new_models")
+yr_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.BASE_YEAR,end_year=constants.end_year, path=constants.path)
+yr_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.BASE_YEAR,end_year=constants.end_year, path=constants.path)
 #changes from start year 2001 to base year 2007
 dist_travelled_d = ConstantBaseModel(generate_constants(fuel_type=constants.DIESEL,constant_type=constants.baseline_d_travelled))
 dist_travelled_p = ConstantBaseModel(generate_constants(fuel_type=constants.PETROL,constant_type=constants.baseline_d_travelled))
@@ -44,14 +44,14 @@ def get_new_dist(bl_dist, future_year_model_d, future_year_model_p, step=0.05):
     if abs(diff) < PERCENTAGE_ERROR:
         return dist_travelled_d.get_constant(yr), dist_travelled_p.get_constant(yr)
     else:
-        old_d_values = dist_travelled_d.get_constant(yr)
-        old_p_values = dist_travelled_p.get_constant(yr)
+        old_diesel_avg_dist = dist_travelled_d.get_constant(yr)
+        old_petrol_avg_dist = dist_travelled_p.get_constant(yr)
         if diff > 0:
             coeff = 1+step
         else:
             coeff = 1-step
-        new_d_values = [float(val)*coeff for val in old_d_values]
-        new_p_values = [float(val)*coeff for val in old_p_values]        
+        new_d_values = [float(val)*coeff for val in old_diesel_avg_dist]
+        new_p_values = [float(val)*coeff for val in old_petrol_avg_dist]        
         dist_travelled_d.update_year_constant(yr, new_d_values)
         dist_travelled_p.update_year_constant(yr, new_p_values)
         return get_new_dist(bl_dist, future_year_model_d, future_year_model_p, step=step*0.75)

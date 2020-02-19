@@ -21,7 +21,7 @@ def generate_year_models(fuel_type,start_year,end_year, path=constants.baseline_
 
 
 def generate_constants(fuel_type,constant_type):
-    print(f'Opening the file: {constant_type}.csv for fuel type: {fuel_type}')
+    # print(f'Opening the file: {constant_type}.csv for fuel type: {fuel_type}')
     file_name = f'static_constants/{fuel_type}/{constant_type}.csv'
     with open(file_name, newline='', encoding='utf-8-sig') as f:
         reader = list(csv.reader(f))
