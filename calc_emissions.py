@@ -42,18 +42,19 @@ for sample_model in yr_models:
     dist_for_yr = dist_travelled.get_constant(year=sample_model._year)
     # [[print(float(numcar),float(cpk),float(dt)) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
     total_consumption_lt = [[float(numcar)*float(cpk)*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
+    annual_lt = sum(sum(total_consumption_lt,[]))
     total_consumption_kgo = [[j*constants.FUEL_CONSTANT for j in i] for i in total_consumption_lt]
     energy_consumption = [[j*42 for j in i] for i in total_consumption_kgo]
     total_ec = sum([sum(i) for i in energy_consumption])
     emissions = [[j*constants.FUEL_ENERGY_CONSTANT for j in i] for i in energy_consumption]
     total_em = sum(sum(emissions,[]))
     total_em_in_kt = total_em/1000000000
-    print(f'{f_type} Emissions for year: {sample_model._year} = {total_em_in_kt} kilotonnes, "consumption": {total_ec}')
-    em_dict.append({"year": str(sample_model._year), "emission" : total_em_in_kt, "consumption": total_ec})
+    print(f'{f_type} Emissions for year: {sample_model._year} = {total_em_in_kt} kilotonnes, "consumption in MJ": {total_ec}, "consumption in liters": {annual_lt}')
+    em_dict.append({"year": str(sample_model._year), "emission" : total_em_in_kt, "consumption in MJ": total_ec, "consumption in liters":annual_lt})
 
 # this code outputs the year emissions to a csv
 csv_file = f'model_output/{f_type}-emissions{constants.name}.csv'
-csv_columns = ["year","emission", "consumption"]
+csv_columns = ["year","emission", "consumption in MJ", "consumption in liters"]
 with open(csv_file, 'w', newline='') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
     writer.writeheader()

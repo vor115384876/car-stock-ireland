@@ -8,7 +8,7 @@ This project has 3 primary components.
 
 ## Supported scenarios:
 
-This project currently has 3 supported scenarios.
+This project currently has 5 supported scenarios.
 
 - `Baseline Scenario`: Emissions are calculated off real scenario.
 - `No diesel uptake`: Scenario assumes diesel and petrol car split remains at 2007 levels (71% Petrol sales, 29% Diesel sales)
@@ -24,3 +24,9 @@ For scenario X: set the `scenario_type` in `constants.py` to `X`. Then run `new_
     scenario 2 = 3% diesel sale growth
     scenario 3 = 2% diesel sale growth
     scenario 4 = 1% diesel sale growth
+
+## Varying on-road factors
+
+Currently the on-road factors for petrol and diesel are based on a 2017 study of cars in Germany (Tietge, Mock, Franco & Zacharof, 2017).
+
+A copy of the old on road factor from the SEAI Private car extract can be found in the "static_constants" folders for both Petrol and Diesel.
