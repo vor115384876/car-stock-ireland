@@ -20,33 +20,29 @@ dist_travelled = ConstantBaseModel(generate_constants(fuel_type=f_type,constant_
 
 new_rd_factor = [row[1:] for row in rd_factor]
 new_em_band = [row[1:] for row in em_band]
-#breakpoint()
-consumption_per_km = [[(1+float(fb))*float(rf) for fb, rf in zip(f_bs, r_fs)] for f_bs, r_fs in zip(new_rd_factor, new_em_band)]
+consumption_per_km = [[(1+float(rf))*float(emb) for rf, emb in zip(r_fs, embs)] for r_fs, embs, in zip(new_rd_factor, new_em_band)]
 new_consumption_per_km = []
 #emissions bands are only recorded from 2004 onwards
-base_year = 2004
+base_year = 1990
 for row in consumption_per_km:
     new_consumption_per_km.append([base_year]+row)
     base_year += 1
 
 constant_model = ConstantBaseModel(new_consumption_per_km)
 
-
 em_dict = []
 for sample_model in yr_models:
-    base_year = sample_model._year-3
+    base_year = sample_model._year-17
     yr_consumption_per_km = []
     while base_year < sample_model._year:
         yr_consumption_per_km.append(constant_model.get_constant(year=base_year))
         base_year+=1
     dist_for_yr = dist_travelled.get_constant(year=sample_model._year)
-    # [[print(float(numcar),float(cpk),float(dt)) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
-     # [[print(float(numcar),float(cpk),float(dt)) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
     total_consumption_grams = [[float(numcar)*float(cpk)*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
     annual_grams = sum(sum(total_consumption_grams,[]))
     
     print(f'{f_type} Emissions for year: {sample_model._year} = {annual_grams} grams_CO2')
-   # em_dict.append({"year": str(sample_model._year), "grams_CO2" : {annual_grams})
+    # em_dict.append({"year": str(sample_model._year), "grams_CO2" : {annual_grams})
     em_dict.append({"year": str(sample_model._year), "grams_CO2" : annual_grams})
 
 # this code outputs the year emissions to a csv
@@ -57,3 +53,12 @@ with open(csv_file, 'w', newline='') as csvfile:
     writer.writeheader()
     for year in em_dict:
         writer.writerow(year)
+
+# total_consumption_grams = []
+# # this for loop will run through a 14 length row 17 team times (per age)
+# for numcars_per_age, cpks_per_age in zip(sample_model._data, yr_consumption_per_km):
+#     row_per_age = []
+#     # this for loop will run through every category on a row
+#     for numcars_per_age_cat, cpks_per_age_cat, dist_for_yr_per_cat in zip(numcars_per_age,cpks_per_age, dist_for_yr):
+#         row_per_age.append(float(cpks_per_age_cat)*float(cpks_per_age_cat)*float(dist_for_yr_per_cat)) 
+#     total_consumption_grams.append(row_per_age)

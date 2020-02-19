@@ -28,6 +28,7 @@ base_year = 1990
 for row in consumption_per_km:
     new_consumption_per_km.append([base_year]+row)
     base_year += 1
+    print(base_year)
 
 constant_model = ConstantBaseModel(new_consumption_per_km)
 
