@@ -12,8 +12,8 @@ class constants:
     
 
     # change these
-    f_type = PETROL
-    scenario_type = 1
+    f_type = DIESEL
+    scenario_type = 0
     #scenario 0 = actual sales and emissions
     #scenario 1 = no growth
     #scenario 2 = 3% diesel sale growth

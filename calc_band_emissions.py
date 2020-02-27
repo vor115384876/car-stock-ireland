@@ -1,6 +1,7 @@
 import csv
 from constants import constants
 from models.base_model import ConstantBaseModel
+from models.base_model import BaseModel
 from utils.generators import generate_constants, generate_year_models
 
 
@@ -38,16 +39,27 @@ for sample_model in yr_models:
         yr_consumption_per_km.append(constant_model.get_constant(year=base_year))
         base_year+=1
     dist_for_yr = dist_travelled.get_constant(year=sample_model._year)
+    #breakpoint()
     total_consumption_grams = [[float(numcar)*float(cpk)*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
+    total_passenger_kilometers = [[float(numcar)*1*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
+    #print(total_passenger_kilometers)
+    #totalvehicles = [float(numcars) for numcars in zip(sample_model._data)]
+    #sumtotalvehicles = sum(sum(totalvehicles))
     annual_grams = sum(sum(total_consumption_grams,[]))
-    
+    total_travel = sum(sum(total_passenger_kilometers,[]))
+    #totalnumcars = get_counts(self)
+    numlist = BaseModel.get_counts(self=sample_model)
+    numcars = sum(sum(numlist,[]))
+    emissions_intensity = annual_grams/(numcars)
+    emissions_intensity_per_km = annual_grams/(total_travel)
+    #print(numcars)
     print(f'{f_type} Emissions for year: {sample_model._year} = {annual_grams} grams_CO2')
     # em_dict.append({"year": str(sample_model._year), "grams_CO2" : {annual_grams})
-    em_dict.append({"year": str(sample_model._year), "grams_CO2" : annual_grams})
+    em_dict.append({"year": str(sample_model._year), "grams_CO2" : annual_grams, "number_cars":numcars, "g_per_car_average": emissions_intensity, "g_per_km_per_car_average": emissions_intensity_per_km  })
 
 # this code outputs the year emissions to a csv
 csv_file = f'model_output/{f_type}-gramsCO2{constants.name}.csv'
-csv_columns = ["year","grams_CO2"]
+csv_columns = ["year","grams_CO2","number_cars","g_per_car_average", "g_per_km_per_car_average"]
 with open(csv_file, 'w', newline='') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
     writer.writeheader()
