@@ -11,14 +11,17 @@ def generate_year_models(fuel_type,start_year,end_year, path=constants.baseline_
     for year in range(start_year,end_year):
         # print(f'Opening the file: {year}.csv for fuel type: {fuel_type}')
         file_name = f'{PATH}/{fuel_type}/{year}.csv'
-        with open(file_name, newline='', encoding='utf-8-sig') as f:
-            reader = list(csv.reader(f))
-            temp = list()
-            for row in reader[1:]:
-                temp.insert(0,row[1:])
-            model_list.append(BaseModel(year, temp))
+        data = read_file(file_name)
+        model_list.append(BaseModel(year, data))
     return model_list
 
+def read_file(file_name):
+    with open(file_name, newline='', encoding='utf-8-sig') as f:
+        reader = list(csv.reader(f))
+        temp = list()
+        for row in reader[1:]:
+            temp.insert(0,row[1:])
+    return temp
 
 def generate_constants(fuel_type,constant_type):
     # print(f'Opening the file: {constant_type}.csv for fuel type: {fuel_type}')
