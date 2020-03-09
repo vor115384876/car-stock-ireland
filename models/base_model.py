@@ -11,7 +11,10 @@ class ConstantBaseModel:
             return self._data[year_to_use]
         else:
             return self._data[year_to_use][cat-1]
-            
+
+    def update_year_constant(self, year:int, values:[int]):
+        year_to_use =  max(min(self._data.keys()),year)
+        self._data[year_to_use] = values
 
 class BaseModel:
     def __init__(self, year, csv_data):

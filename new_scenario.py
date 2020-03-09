@@ -1,20 +1,14 @@
-import csv
-from copy import deepcopy
 from constants import constants
-from models.base_model import BaseModel, ConstantBaseModel
+from models.base_model import BaseModel
 from survival_rate import calc_survival_rate
-from utils.generators import generate_constants, generate_year_models, list_prod, get_model_by_year
+from utils.generators import generate_year_models, list_prod, get_model_by_year, write_year_model_to_csv
+from utils.salespercentage import get_sales_percentage
 
-
-
-header= [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
 
 yr_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.start_year,end_year=constants.BASE_YEAR+1)
 yr_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.start_year,end_year=constants.BASE_YEAR+1)
-baseline_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.start_year,end_year=constants.end_year)
-baseline_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.start_year,end_year=constants.end_year)
-
-
+baseline_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.BASE_YEAR,end_year=constants.end_year)
+baseline_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.BASE_YEAR,end_year=constants.end_year)
 
 
 def add_models(model_a, model_b):
@@ -75,8 +69,7 @@ def get_new_car_count(year_models, baseline_models):
 def generate_next_year(year_models, full_sales, rounded_car_count, fuel):
     latest_year = year_models[-1]
     year = latest_year._year + 1
-    SALE_CONSTANT = 0.71
-    SALE_PERCENTAGE =  SALE_CONSTANT if fuel is constants.PETROL else 1 - SALE_CONSTANT
+    SALE_PERCENTAGE = get_sales_percentage(fuel_type=fuel,year=year)
     
     new_cars_by_f_type = round(full_sales*SALE_PERCENTAGE)
     
@@ -86,23 +79,13 @@ def generate_next_year(year_models, full_sales, rounded_car_count, fuel):
     rounded_car_count.insert(0, scenario_new_cars)
     return year, rounded_car_count
 
-def write_year_model_to_csv(year_data, year, fuel):
-    year_data_to_write = deepcopy(year_data)
-    year_data_to_write.reverse()
-    ids = list(range(16,-1,-1))
-    [row.insert(0, i) for  i, row in zip(ids, year_data_to_write)]
-    year_data_to_write.insert(0, header)
-    csv_file = f'new_models/{fuel}/{year}.csv'
-    with open(csv_file, 'w') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerows(year_data_to_write)
 
 def final_step(year, cc, fuel):
     new_year_model = BaseModel(year, cc)
     return new_year_model
 
 
-year = 2007
+year = constants.BASE_YEAR
 while year < constants.end_year-1:
     print(year)
     diesel_car_diff, diesel_count_car_count = get_new_car_count(yr_models_d, baseline_models_d)
