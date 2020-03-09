@@ -1,6 +1,5 @@
-import csv
 from constants import constants
-from models.base_model import BaseModel, ConstantBaseModel
+from models.base_model import BaseModel
 from survival_rate import calc_survival_rate
 from utils.generators import generate_year_models, list_prod, get_model_by_year, write_year_model_to_csv
 from utils.salespercentage import get_sales_percentage
