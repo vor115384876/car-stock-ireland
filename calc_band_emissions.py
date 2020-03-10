@@ -43,6 +43,7 @@ for sample_model in yr_models:
     total_consumption_grams = [[float(numcar)*float(cpk)*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
     total_passenger_kilometers = [[float(numcar)*1*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
     total_consumption_unweighted_list = [[float(numcar)*1*float(cpk) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
+    
     #print(total_passenger_kilometers)
     #totalvehicles = [float(numcars) for numcars in zip(sample_model._data)]
     #sumtotalvehicles = sum(sum(totalvehicles))
@@ -58,9 +59,9 @@ for sample_model in yr_models:
 
     emissions_intensity_per_km_unweighted = total_consumption_unweighted/(numcars)
     
-    print(numcars)
 
-    print(f'{f_type} Emissions for year: {sample_model._year} = {annual_grams} grams_CO2')
+
+    print(f'{f_type} Emissions for year: {sample_model._year} = {annual_grams} grams_CO2- number of cars :{numcars}')
     # em_dict.append({"year": str(sample_model._year), "grams_CO2" : {annual_grams})
     em_dict.append({"year": str(sample_model._year), "grams_CO2" : annual_grams, "number_cars":numcars, "g_per_car_average": emissions_intensity, "g_per_km_per_car_weighted": emissions_intensity_per_km, "g_per_km_per_car_unweighted":emissions_intensity_per_km_unweighted })
 

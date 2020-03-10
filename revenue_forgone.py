@@ -69,7 +69,7 @@ for year in consumption_per_km:
             taxvalue.append(2350)
             #break
         
-print(taxvaluearray)
+#print(taxvaluearray)
 
 for year in consumption_per_km_no_orf:
     taxvaluearray_no_orf.append(taxvalue_no)
@@ -111,8 +111,10 @@ for year in consumption_per_km_no_orf:
         elif gkm_no > 225:
             taxvalue_no.append(2350)
             break
-        
-print(taxvaluearray_no_orf)
+      
+em_dict = []
+
+#print(taxvaluearray_no_orf)
 new_consumption_per_km = []
 base_year = 1990
 for row in consumption_per_km:
@@ -128,15 +130,28 @@ for sample_model in yr_models:
         base_year+=1
     dist_for_yr = dist_travelled.get_constant(year=sample_model._year)
     #breakpoint()
-total_revenue_amt = [[float(numcar)*1*float(taxvaluearray_no_orfss) for numcar,taxvaluearray_no_orfss in zip(numcars, taxvaluearray_no_orfs)] for numcars, taxvaluearray_no_orfs in zip(sample_model._data,taxvaluearray_no_orf)]
-#print(total_revenue_amt)
+    total_revenue_amt = [[float(numcar)*1*float(taxvaluearray_no_orfss) for numcar,taxvaluearray_no_orfss in zip(numcars, taxvaluearray_no_orfs)] for numcars, taxvaluearray_no_orfs in zip(sample_model._data,taxvaluearray_no_orf)]
+    numlist = BaseModel.get_counts(self=sample_model)
+    numcars = sum(sum(numlist,[]))
+    total_revenue_amt_with_on_road = [[float(numcar)*1*float(taxvaluearrayss) for numcar,taxvaluearrayss in zip(numcars, taxvaluearrays)] for numcars, taxvaluearrays in zip(sample_model._data,taxvaluearray)]
+    #print(total_revenue_amt_with_on_road)
+    annual_total_rev_amt =  sum(sum(total_revenue_amt,[]))
+    annual_total_rev_amt_with_on_road = sum(sum(total_revenue_amt_with_on_road,[]))
 
-print(taxvaluearray)
+    #print(annual_total_rev_amt)
+    #print(annual_total_rev_amt_with_on_road) 
 
-print(taxvaluearray_no_orf)
-total_revenue_amt_with_on_road = [[float(numcar)*1*float(taxvaluearrayss) for numcar,taxvaluearrayss in zip(numcars, taxvaluearrays)] for numcars, taxvaluearrays in zip(sample_model._data,taxvaluearray)]
-#print(total_revenue_amt_with_on_road)
-annual_total_rev_amt = list(map(sum, total_revenue_amt))
-annual_total_rev_amt_with_on_road = list(map(sum, total_revenue_amt_with_on_road))
-#print(annual_total_rev_amt)
-#print(annual_total_rev_amt_with_on_road) 
+    print(f'{f_type} annual motor tax for year: {sample_model._year} = {annual_total_rev_amt}')
+    print(f'{f_type} annual motor tax for year with orf: {sample_model._year} = {annual_total_rev_amt_with_on_road}')
+ 
+    em_dict.append({"year": str(sample_model._year), "no_on_road" : annual_total_rev_amt, "number_cars":numcars, "with_on_road_factor": annual_total_rev_amt_with_on_road  })
+
+# this code outputs the year emissions to a csv
+csv_file = f'model_output/{f_type}-revenueforgone{constants.name}.csv'
+csv_columns = ["year","no_on_road","number_cars","with_on_road_factor"]
+with open(csv_file, 'w', newline='') as csvfile:
+    writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+    writer.writeheader()
+    for year in em_dict:
+        writer.writerow(year)
+
