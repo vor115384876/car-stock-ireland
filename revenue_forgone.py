@@ -138,5 +138,5 @@ total_revenue_amt_with_on_road = [[float(numcar)*1*float(taxvaluearrayss) for nu
 #print(total_revenue_amt_with_on_road)
 annual_total_rev_amt = list(map(sum, total_revenue_amt))
 annual_total_rev_amt_with_on_road = list(map(sum, total_revenue_amt_with_on_road))
-print(annual_total_rev_amt)
-print(annual_total_rev_amt_with_on_road)
+#print(annual_total_rev_amt)
+#print(annual_total_rev_amt_with_on_road) 
