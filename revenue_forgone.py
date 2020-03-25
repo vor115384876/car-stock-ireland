@@ -29,82 +29,70 @@ taxvaluearray_no_orf = [[]]
 taxvalue = []
 taxvalue_no = []
 
-for year in consumption_per_km:
-#check if year of registration is before 2008 if so, check engine cc of the group
-#how do I store vintage from the arrays in the lists?
 
-        # for engine_cc in year:
 
-        #     if engine_cc < 1001:
-        #         taxvalue.append(199)
-        #     elif engine_cc < 1101:
-        #         taxvalue.append(299)
-        #     elif engine_cc < 1201:
-        #         taxvalue.append(330)
-        #     elif engine_cc < 1301:
-        #         taxvalue.append(358)
-        #     elif engine_cc < 1401:
-        #         taxvalue.append(385)
-        #     elif engine_cc < 1501:
-        #         taxvalue.append(413)
-        #     elif engine_cc < 1601:
-        #         taxvalue.append(514)
-        #     elif engine_cc < 1701:
-        #         taxvalue.append(544)
-        #     elif engine_cc < 1801:
-        #         taxvalue.append(636)
-        #     elif engine_cc < 1901:
-        #         taxvalue.append(673)
-        #     elif engine_cc < 2001:
-        #         taxvalue.append(710)
-        #     elif engine_cc < 2501:
-        #         taxvalue.append((994))
-        #         #value for median 2201 - 2301 selected
-        #     elif engine_cc > 2501 :
-        #         taxvalue.append(1443)
-        #         #value for 2801 - 2900 selected
-      
 
-    taxvaluearray.append(taxvalue)
-
-    for gkm in year:
+for model in yr_models:
+    for i in range(0,16):
+        print(f'getting car age{i} in year {model._year}')
+        vintage = model.get_car_year(i)
+        print(vintage)
+        if vintage < 2008:
+            print(f'run your code here to apply cc based tax')
+            for year in consumption_per_km:
+            #check if year of registration is before 2008 if so, check engine cc of the group
+            #how do I store vintage from the arrays in the lists?      
+                
+                taxvalue.extend((199,299,330,358,385,413,514,544,636,673,710,994,1443))
     
-        if gkm <= 0:
-            taxvalue.append(120)
-            break
-        elif gkm <= 80:
-            taxvalue.append(170)
-            break
-        elif gkm <= 100:
-            taxvalue.append(180)
-            break
-        elif gkm <= 110:
-            taxvalue.append(190)
-            break
-        elif gkm <= 120:
-            taxvalue.append(200)
-            break
-        elif gkm <= 130:
-            taxvalue.append(270)
-            break
-        elif gkm <= 140:
-            taxvalue.append(280)
-            break
-        elif gkm <= 155:
-            taxvalue.append(390)
-            break
-        elif gkm <= 170:
-            taxvalue.append(570)
-            break
-        elif gkm <= 190:
-            taxvalue.append(750)
-            break
-        elif gkm <= 225:
-            taxvalue.append(1200)
-            #break
-        elif gkm > 225:
-            taxvalue.append(2350)
-            #break
+        else:
+            print(f'run your code here to apply emmission base tax')
+            taxvaluearray.append(taxvalue)
+            for gkm in year:
+            
+                if gkm <= 0:
+                    taxvalue.append(120)
+                    break
+                elif gkm <= 80:
+                    taxvalue.append(170)
+                    break
+                elif gkm <= 100:
+                    taxvalue.append(180)
+                    break
+                elif gkm <= 110:
+                    taxvalue.append(190)
+                    break
+                elif gkm <= 120:
+                    taxvalue.append(200)
+                    break
+                elif gkm <= 130:
+                    taxvalue.append(270)
+                    break
+                elif gkm <= 140:
+                    taxvalue.append(280)
+                    break
+                elif gkm <= 155:
+                    taxvalue.append(390)
+                    break
+                elif gkm <= 170:
+                    taxvalue.append(570)
+                    break
+                elif gkm <= 190:
+                    taxvalue.append(750)
+                    break
+                elif gkm <= 225:
+                    taxvalue.append(1200)
+                    #break
+                elif gkm > 225:
+                    taxvalue.append(2350)
+                    #break
+                print("")
+
+
+
+            
+
+    
             
 #print(taxvaluearray)
 
