@@ -21,154 +21,51 @@ new_em_band = [row[1:] for row in em_band]
 
 
 consumption_per_km = [[(1+float(rf))*float(emb) for rf, emb in zip(r_fs, embs)] for r_fs, embs, in zip(new_rd_factor, new_em_band)]
-#print(consumption_per_km)
-consumption_per_km_no_orf = [[(1+0)*float(emb) for rf, emb in zip(r_fs, embs)] for r_fs, embs, in zip(new_rd_factor, new_em_band)]
 
+consumption_per_km_no_orf = [[(1+0)*float(emb) for rf, emb in zip(r_fs, embs)] for r_fs, embs, in zip(new_rd_factor, new_em_band)]
+print(consumption_per_km_no_orf[0])
 taxvaluearray = [[]]
 taxvaluearray_no_orf = [[]]
-taxvalue = []
-taxvalue_no = []
-
-
 
 
 for model in yr_models:
+    taxvalue = []
+    taxvalue_no = []
     for i in range(0,16):
         print(f'getting car age{i} in year {model._year}')
         vintage = model.get_car_year(i)
         print(vintage)
         if vintage < 2008:
             print(f'run your code here to apply cc based tax')
-            for year in consumption_per_km:
+            
             #check if year of registration is before 2008 if so, check engine cc of the group
             #how do I store vintage from the arrays in the lists?      
-                
-                taxvalue.extend((199,299,330,358,385,413,514,544,636,673,710,994,1443))
-    
+            pre_2008_tax_value =[199,299,330,358,385,413,514,544,636,673,710,994,1443]   
+            taxvalue.extend(pre_2008_tax_value)
+            taxvalue_no.extend(pre_2008_tax_value)
+
         else:
             print(f'run your code here to apply emmission base tax')
-            taxvaluearray.append(taxvalue)
-            for gkm in year:
+            gkm_list = consumption_per_km[(vintage - 1990)] 
+            gkm_list_no_orf = consumption_per_km_no_orf[(vintage - 1990)]
+            em_tax_dict = {0:120,80:170,100:180,110:190,120:200,130:270, 140:280,155:390,170:570,190:750,225:1200,1000:2350}
+            for gkm in gkm_list:
+                
+                for key in em_tax_dict.keys():
+                    if gkm <= key:
+                        taxvalue.append(em_tax_dict[key])
+                        break
             
-                if gkm <= 0:
-                    taxvalue.append(120)
-                    break
-                elif gkm <= 80:
-                    taxvalue.append(170)
-                    break
-                elif gkm <= 100:
-                    taxvalue.append(180)
-                    break
-                elif gkm <= 110:
-                    taxvalue.append(190)
-                    break
-                elif gkm <= 120:
-                    taxvalue.append(200)
-                    break
-                elif gkm <= 130:
-                    taxvalue.append(270)
-                    break
-                elif gkm <= 140:
-                    taxvalue.append(280)
-                    break
-                elif gkm <= 155:
-                    taxvalue.append(390)
-                    break
-                elif gkm <= 170:
-                    taxvalue.append(570)
-                    break
-                elif gkm <= 190:
-                    taxvalue.append(750)
-                    break
-                elif gkm <= 225:
-                    taxvalue.append(1200)
-                    #break
-                elif gkm > 225:
-                    taxvalue.append(2350)
-                    #break
-                print("")
-
-
-
-            
-
-    
-            
-#print(taxvaluearray)
-
-for year in consumption_per_km_no_orf:
+            for gkm_no_orf in gkm_list_no_orf:
+                for key in em_tax_dict.keys():
+                    if gkm_no_orf <= key:
+                        taxvalue_no.append(em_tax_dict[key])
+                        break
+    taxvaluearray.append(taxvalue)
     taxvaluearray_no_orf.append(taxvalue_no)
+print(taxvaluearray_no_orf)
+                
 
-    for gkm_no in year:
-        
-        if gkm_no <= 0:
-            taxvalue_no.append(120)
-            break
-        elif gkm_no <= 80:
-            taxvalue_no.append(170)
-            break
-        elif gkm_no <= 100:
-            taxvalue_no.append(180)
-            break
-        elif gkm_no <= 110:
-            taxvalue_no.append(190)
-            break
-        elif gkm_no <= 120:
-            taxvalue_no.append(200)
-            break
-        elif gkm_no <= 130:
-            taxvalue_no.append(270)
-            break
-        elif gkm_no <= 140:
-            taxvalue_no.append(280)
-            break
-        elif gkm_no <= 155:
-            taxvalue_no.append(390)
-            break
-        elif gkm_no <= 170:
-            taxvalue_no.append(570)
-            break
-        elif gkm_no <= 190:
-            taxvalue_no.append(750)
-            break
-        elif gkm_no <= 225:
-            taxvalue_no.append(1200)
-            break
-        elif gkm_no > 225:
-            taxvalue_no.append(2350)
-            break
-
-
-        # for engine_cc in year:
-
-        #     if engine_cc < 1001:
-        #         taxvalue.append(199)
-        #     elif engine_cc < 1101:
-        #         taxvalue.append(299)
-        #     elif engine_cc < 1201:
-        #         taxvalue.append(330)
-        #     elif engine_cc < 1301:
-        #         taxvalue.append(358)
-        #     elif engine_cc < 1401:
-        #         taxvalue.append(385)
-        #     elif engine_cc < 1501:
-        #         taxvalue.append(413)
-        #     elif engine_cc < 1601:
-        #         taxvalue.append(514)
-        #     elif engine_cc < 1701:
-        #         taxvalue.append(544)
-        #     elif engine_cc < 1801:
-        #         taxvalue.append(636)
-        #     elif engine_cc < 1901:
-        #         taxvalue.append(673)
-        #     elif engine_cc < 2001:
-        #         taxvalue.append(710)
-        #     elif engine_cc < 2501:
-        #         taxvalue.append((994))
-        #         #value for median 2201 - 2301 selected
-        #     elif engine_cc > 2501 :
-        #         taxvalue.append(1443)
-        #         #value for 2801 - 2900 selected
 
 
 
