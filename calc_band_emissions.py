@@ -2,7 +2,7 @@ import csv
 from constants import constants
 from models.base_model import ConstantBaseModel
 from models.base_model import BaseModel
-from utils.generators import generate_constants, generate_year_models
+from utils.generators import generate_constants, generate_year_models, generate_dist_models
 
 
 
@@ -17,7 +17,7 @@ em_band = generate_constants(fuel_type=f_type, constant_type=constants.em_band)
 rd_factor = generate_constants(fuel_type=f_type,constant_type=constants.r_factor)
 
 
-dist_travelled = ConstantBaseModel(generate_constants(fuel_type=f_type,constant_type=constants.d_travelled))
+dist_models = generate_dist_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
 
 new_rd_factor = [row[1:] for row in rd_factor]
 new_em_band = [row[1:] for row in em_band]
@@ -32,17 +32,17 @@ for row in consumption_per_km:
 constant_model = ConstantBaseModel(new_consumption_per_km)
 
 em_dict = []
-for sample_model in yr_models:
+for index,sample_model in enumerate(yr_models):
     base_year = sample_model._year-17
     yr_consumption_per_km = []
     while base_year < sample_model._year:
         yr_consumption_per_km.append(constant_model.get_constant(year=base_year))
         base_year+=1
-    dist_for_yr = dist_travelled.get_constant(year=sample_model._year)
+    dist_for_yr = dist_models[index]._data
     #breakpoint()
-    total_consumption_grams = [[float(numcar)*float(cpk)*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
-    total_passenger_kilometers = [[float(numcar)*1*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
-    total_consumption_unweighted_list = [[float(numcar)*1*float(cpk) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr)] for numcars, cpks in zip(sample_model._data, yr_consumption_per_km)]
+    total_consumption_grams = [[float(numcar)*float(cpk)*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr_cat)] for numcars, cpks, dist_for_yr_cat in zip(sample_model._data, yr_consumption_per_km, dist_for_yr)]
+    total_passenger_kilometers = [[float(numcar)*1*float(dt) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr_cat)] for numcars, cpks, dist_for_yr_cat in zip(sample_model._data, yr_consumption_per_km, dist_for_yr)]
+    total_consumption_unweighted_list = [[float(numcar)*1*float(cpk) for numcar,cpk,dt in zip(numcars,cpks, dist_for_yr_cat)] for numcars, cpks, dist_for_yr_cat in zip(sample_model._data, yr_consumption_per_km, dist_for_yr)]
     
     #print(total_passenger_kilometers)
     #totalvehicles = [float(numcars) for numcars in zip(sample_model._data)]
