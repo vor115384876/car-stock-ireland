@@ -8,7 +8,7 @@ from utils.generators import generate_constants, generate_year_models
 f_type = constants.f_type
 
 
-yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
+yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=2004, path=constants.path)
 
 em_band = generate_constants(fuel_type=f_type, constant_type=constants.em_band)
 rd_factor = generate_constants(fuel_type=f_type,constant_type=constants.r_factor)
@@ -21,8 +21,11 @@ new_em_band = [row[1:] for row in em_band]
 
 
 consumption_per_km = [[(1+float(rf))*float(emb) for rf, emb in zip(r_fs, embs)] for r_fs, embs, in zip(new_rd_factor, new_em_band)]
+print(consumption_per_km)
 
 consumption_per_km_no_orf = [[(1+0)*float(emb) for rf, emb in zip(r_fs, embs)] for r_fs, embs, in zip(new_rd_factor, new_em_band)]
+print(consumption_per_km_no_orf)
+
 print(consumption_per_km_no_orf[0])
 taxvaluearray = [[]]
 taxvaluearray_no_orf = [[]]
@@ -47,8 +50,9 @@ for model in yr_models:
         else:
             print(f'run your code here to apply emmission base tax')
             gkm_list = consumption_per_km[(vintage - 1990)] 
+            print(vintage - 1990)
             gkm_list_no_orf = consumption_per_km_no_orf[(vintage - 1990)]
-            em_tax_dict = {0:120,80:170,100:180,110:190,120:200,130:270, 140:280,155:390,170:570,190:750,225:1200,1000:2350}
+            em_tax_dict = {0:120,80:170,100:180,110:190,120:200,130:270,140:280,155:390,170:570,190:750,225:1200,1000:2350}
             for gkm in gkm_list:
                 
                 for key in em_tax_dict.keys():
@@ -64,7 +68,7 @@ for model in yr_models:
     taxvaluearray.append(taxvalue)
     taxvaluearray_no_orf.append(taxvalue_no)
 print(taxvaluearray_no_orf)
-                
+print(taxvaluearray)               
 
 
 
@@ -82,11 +86,12 @@ for row in consumption_per_km:
 constant_model = ConstantBaseModel(new_consumption_per_km)
 for sample_model in yr_models:
     base_year = sample_model._year-17
+
     yr_consumption_per_km = []
     while base_year < sample_model._year:
         yr_consumption_per_km.append(constant_model.get_constant(year=base_year))
         base_year+=1
-    dist_for_yr = dist_travelled.get_constant(year=sample_model._year)
+    
     #breakpoint()
     total_revenue_amt = [[float(numcar)*1*float(taxvaluearray_no_orfss) for numcar,taxvaluearray_no_orfss in zip(numcars, taxvaluearray_no_orfs)] for numcars, taxvaluearray_no_orfs in zip(sample_model._data,taxvaluearray_no_orf)]
     numlist = BaseModel.get_counts(self=sample_model)
