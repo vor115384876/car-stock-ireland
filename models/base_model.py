@@ -19,7 +19,7 @@ class ConstantBaseModel:
 class BaseModel:
     def __init__(self, year, csv_data):
         self._year = year
-        print(year)
+        # print(year)
         self._data = [list(map(int, row)) for row in csv_data]
 
 
