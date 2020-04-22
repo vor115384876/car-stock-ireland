@@ -27,9 +27,9 @@ consumption_per_km_no_orf = [[float(emb) for emb in embs] for embs in new_em_ban
 pre_2008_tax_value =[199,299,330,358,385,413,514,544,636,673,710,994,1443]
 em_tax_dict = {0:120,80:170,100:180,110:190,120:200,130:270,140:280,155:390,170:570,190:750,225:1200,1000:2350} 
 
-
+em_dict = []
 def get_tax_values(vintage, with_rf):
-    if vintage >= 2008:
+    if vintage >= 2020:
         tax_values = []
         if with_rf:
             consumption_pkm = consumption_per_km
@@ -57,9 +57,17 @@ for model in yr_models:
     annual_total_rev_amt =  sum(sum(total_revenue_amt,[]))
     annual_total_rev_amt_norf =  sum(sum(total_revenue_amt_norf,[]))
     print(f'{f_type} annual motor tax for year: {model._year} = {annual_total_rev_amt}')
-    print(f'{f_type} annual motor tax for year with orf: {model._year} = {annual_total_rev_amt_norf}')
+    print(f'{f_type} annual motor tax for year no orf: {model._year} = {annual_total_rev_amt_norf}')
+    em_dict.append({"year": model._year, "no_on_road" : annual_total_rev_amt_norf, "with_on_road_factor": annual_total_rev_amt  })
 
-
+#this code outputs the year emissions to a csv
+csv_file = f'model_output/{f_type}-revenueforgone{constants.name}.csv'
+csv_columns = ["year","no_on_road","with_on_road_factor"]
+with open(csv_file, 'w', newline='') as csvfile:
+    writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+    writer.writeheader()
+    for year in em_dict:
+        writer.writerow(year)
 
 
 
