@@ -31,7 +31,7 @@ for index,sample_model in enumerate(yr_models):
     between_1300cc_and_1900cc = group_car_engine_cc[5]+group_car_engine_cc[6]+group_car_engine_cc[7]+group_car_engine_cc[8]+group_car_engine_cc[9]+group_car_engine_cc[10]
     #columns 5 - 10 (1300cc - 1900cc - medium)
     greater_than_1900cc = (group_car_engine_cc[11] + group_car_engine_cc[12] + group_car_engine_cc[13])
-    #columns 10 - 13 (>1900cc - large)
+    #columns 11 - 13 (>1900cc - large)
     engine_group_dict.append({"year": str(sample_model._year), "<1300cc": less_than_1300cc, "1300cc - 1900cc": between_1300cc_and_1900cc, ">1900cc": greater_than_1900cc})
 
 csv_file = f'model_output/{f_type}-grouped_engine_cc.csv'
