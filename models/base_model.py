@@ -54,3 +54,9 @@ class BaseModel:
             new_row = [float(a)*float(b) for a,b in zip(self.get_counts(age=age),model.get_constant(year=year))]
             new_model.append(new_row)
         return new_model
+
+    def give_engine_groupings(self, splits): 
+        grouped_data = []
+        for row in self.get_counts():
+            grouped_data.append([sum(row[split[0]:split[1]+1]) for split in splits])
+        return grouped_data
