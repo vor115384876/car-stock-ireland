@@ -4,6 +4,7 @@ class constants:
 
     PETROL="petrol"
     DIESEL="diesel"
+
     
     em_band = "emissions_bands"
     f_band = "efficiency_bands"
@@ -12,7 +13,7 @@ class constants:
     
 
     # change these
-    f_type = PETROL
+    f_type = DIESEL
     scenario_type = 0
     #scenario 0 = actual sales and emissions
     #scenario 1 = no growth
