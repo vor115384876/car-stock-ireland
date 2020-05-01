@@ -6,7 +6,7 @@ class constants:
     DIESEL="diesel"
     ELECTRIC = "electric"
     HYBRID = "hybrid"
-    PLUGIN = "plugin"
+    PETROLPLUGIN = "petrolplugin"
 
     
     em_band = "emissions_bands"
@@ -16,7 +16,7 @@ class constants:
     
 
     # change these
-    f_type = HYBRID
+    f_type = PETROLPLUGIN
     scenario_type = 0
     #scenario 0 = actual sales and emissions
     #scenario 1 = no growth
