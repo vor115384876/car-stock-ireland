@@ -22,6 +22,9 @@ class BaseModel:
         # print(year)
         self._data = [list(map(int, row)) for row in csv_data]
 
+    def __mul__(self, other):
+        product_matrix = [[a*b for a,b in zip(a_row,b_row)] for a_row,b_row in zip(self._data, other._data)]
+        return BaseModel(year=self._year, csv_data=product_matrix)
 
     def get_counts(self, age:int=None, cat:int=None):
         if age is not None:
