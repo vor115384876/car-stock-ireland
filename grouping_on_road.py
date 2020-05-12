@@ -8,7 +8,8 @@ from utils.generators import generate_constants, generate_year_models, generate_
 f_type = constants.f_type
 
 yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
-dist_models = generate_dist_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
+#dist_models = generate_dist_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
+rd_factor = generate_constants(fuel_type=f_type,constant_type=constants.r_factor)
 
 def replace_zeros(a, b):
     return 1 if a == 0 else b
@@ -18,32 +19,25 @@ fat_lads = [11,14]
 total = [0,14]
 
 
-
 #vehicle stock 0 - 14 } aggregate 0-4, 5-10, 11-14
-#distance 0-4 {sum of (vehicle stock (0)*average distance (0))+vehicle stock (1) *average distance (1) +.../(sum of total vehicle stock in group 0 - 4)}
+#distance 0-4 {sum of (vehicle stock (0)*r factor (0))+vehicle stock (1) *r factor (1) +.../(sum of total vehicle stock in group 0 - 4)}
 
-for model, dist_models in zip(yr_models, dist_models):
-    csv_file = f'model_output/{f_type}/distance_grouped/{model._year}_distance_grouped_engine_cc.csv'
-    pkm_model = model * dist_models
+for model in yr_models:
+    csv_file = f'model_output/{f_type}/fuel_efficiencies_grouped/{model._year}_distance_grouped_engine_cc.csv'
+    rd_model = model._year * r_factor
 
     with open(csv_file, 'w', newline='') as csvfile:
 
 
-        if f_type != 'electric':
+        if f_type == ('diesel' or 'petrol'):
             splits = [smol_bois, medium_bois, fat_lads]
             header = ["year","<1300cc","1300cc - 1900cc",">1900cc"]
-            pkm_split = pkm_model.give_engine_groupings(splits)
+            eff_split = eff_model.give_engine_groupings(splits)
             car_count_split = model.give_engine_groupings(splits)
-            car_count_filtered = car_count_split
             car_count_filtered = [[replace_zeros(a, b) for a, b in zip(r1, r2)] for r1, r2 in zip(car_count_split, car_count_filtered)]
 
         else:
-            electric_split = [total]
-            header = ["year","average mileage"]
-            pkm_split = pkm_model.give_engine_groupings(electric_split)
-            car_count_split = model.give_engine_groupings(electric_split)
-            car_count_filtered = car_count_split
-            car_count_filtered = [[replace_zeros(a, b) for a, b in zip(r1, r2)] for r1, r2 in zip(car_count_split, car_count_filtered)]
+            print("On road factors available for petrol and diesel only.")
             
             
         data_to_write = [[pkm/car_count for pkm,car_count in zip(p_row,c_row)] for p_row,c_row in zip(pkm_split,car_count_filtered)]
