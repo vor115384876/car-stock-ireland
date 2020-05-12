@@ -63,3 +63,7 @@ class BaseModel:
         for row in self.get_counts():
             grouped_data.append([sum(row[split[0]:split[1]+1]) for split in splits])
         return grouped_data
+    
+
+
+    

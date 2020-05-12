@@ -16,7 +16,7 @@ class constants:
     
 
     # change these
-    f_type = PETROL
+    f_type = ELECTRIC
     scenario_type = 0
     #scenario 0 = actual sales and emissions
     #scenario 1 = no growth
