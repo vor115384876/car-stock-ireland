@@ -11,40 +11,33 @@ yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_ye
 #dist_models = generate_dist_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
 rd_factor = generate_constants(fuel_type=f_type,constant_type=constants.r_factor)
 
-def replace_zeros(a, b):
-    return 1 if a == 0 else b
-smol_bois = [0,4]
-medium_bois = [5,10]
-fat_lads = [11,14]
-total = [0,14]
+print(rd_factor)
+rd_factor.sort(reverse = True)
+
+#vehicle stock 0 - 14 } aggregate 1-5, 5-11, 12-14
+#distance 0-4 {sum of (vehicle stock (0)*eff band (0))+vehicle stock (1) *eff band (1) +.../(sum of total vehicle stock in group 0 - 4)}
 
 
-#vehicle stock 0 - 14 } aggregate 0-4, 5-10, 11-14
-#distance 0-4 {sum of (vehicle stock (0)*r factor (0))+vehicle stock (1) *r factor (1) +.../(sum of total vehicle stock in group 0 - 4)}
+em_dict = []
 
-for model in yr_models:
-    csv_file = f'model_output/{f_type}/fuel_efficiencies_grouped/{model._year}_distance_grouped_engine_cc.csv'
-    rd_model = model._year * r_factor
+if f_type == 'diesel' or 'petrol':
+    for year_row in rd_factor:
+        year_row = list(map(float, year_row))
+        year = year_row[0]
+        less_than_1300cc = (year_row[1]+year_row[2]+year_row[3]+year_row[4]+year_row[5])/5
+        between_1300cc_and_1900cc = (year_row[6]+year_row[7]+year_row[8]+year_row[10]+year_row[11])/6
+        more_than_1900cc = (year_row[12]+year_row[13]+year_row[14])/3
+    
+        em_dict.append({"year": year, "<1300cc" : less_than_1300cc, "1300cc - 1900cc" : between_1300cc_and_1900cc, ">1900cc" : more_than_1900cc})
 
-    with open(csv_file, 'w', newline='') as csvfile:
-
-
-        if f_type == ('diesel' or 'petrol'):
-            splits = [smol_bois, medium_bois, fat_lads]
-            header = ["year","<1300cc","1300cc - 1900cc",">1900cc"]
-            eff_split = eff_model.give_engine_groupings(splits)
-            car_count_split = model.give_engine_groupings(splits)
-            car_count_filtered = [[replace_zeros(a, b) for a, b in zip(r1, r2)] for r1, r2 in zip(car_count_split, car_count_filtered)]
-
-        else:
-            print("On road factors available for petrol and diesel only.")
-            
-            
-        data_to_write = [[pkm/car_count for pkm,car_count in zip(p_row,c_row)] for p_row,c_row in zip(pkm_split,car_count_filtered)]
-
-        ids = list(range(0,18))
-        [row.insert(0, model.get_car_year(i)) for  i, row in zip(ids, data_to_write)]
-        data_to_write.insert(0, header)
-        with open(csv_file, 'w', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerows(data_to_write)
+else:
+    print("Fuel efficiencies available for petrol and diesel only.")
+    
+# this code outputs the year emissions to a csv
+csv_file = f'model_output/{f_type}/fuel_efficiencies_grouped/on_road_factors_grouped_engine_cc.csv'
+csv_columns = ["year","<1300cc","1300cc - 1900cc",">1900cc"]
+with open(csv_file, 'w', newline='') as csvfile:
+    writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+    writer.writeheader()
+    for year in em_dict:
+        writer.writerow(year)

@@ -19,7 +19,7 @@ total = [0,14]
 
 
 
-#vehicle stock 0 - 14 } aggregate 0-4, 5-10, 11-14
+#vehicle stock 0 - 14 } aggregate 0-4, 5-10, 11-13
 #distance 0-4 {sum of (vehicle stock (0)*average distance (0))+vehicle stock (1) *average distance (1) +.../(sum of total vehicle stock in group 0 - 4)}
 
 for model, dist_models in zip(yr_models, dist_models):
