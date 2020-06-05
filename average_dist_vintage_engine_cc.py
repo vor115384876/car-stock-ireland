@@ -46,7 +46,7 @@ for sample_model in yr_models:
     annual_passenger_kilometers = sum(total_passenger_kilometers,[])
    # print(annual_passenger_kilometers)
     annual_pkm = list(map(int, annual_passenger_kilometers))
-    #print(annual_pkm)
+    print(annual_pkm)
     
     # engine_cc_cat = 1
     # while engine_cc_cat < 15:
@@ -75,7 +75,7 @@ for year in range(2001,2018):
     readfile = f'{PATH}/{fuel_type}/{year}.csv'
     with open(readfile, newline='', encoding='utf-8-sig') as ff:
         data = [row for row in csv.reader(ff)]
-        print(data)
+        #print(data)
     
     readfile = f'{PATH}/{fuel_type}/average_distance_engine_cc/scenario_0_distance_travelled.csv'
     with open(readfile, newline='', encoding='utf-8-sig') as f:
