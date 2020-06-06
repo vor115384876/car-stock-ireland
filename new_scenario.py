@@ -4,6 +4,7 @@ from constants import constants
 from models.base_model import BaseModel, ConstantBaseModel
 from survival_rate import calc_survival_rate
 from utils.generators import generate_constants, generate_year_models, list_prod, get_model_by_year
+from utils.salespercentage import get_sales_percentage
 
 
 
@@ -11,15 +12,14 @@ header= [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
 
 yr_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.start_year,end_year=constants.BASE_YEAR+1)
 yr_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.start_year,end_year=constants.BASE_YEAR+1)
-baseline_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.start_year,end_year=constants.end_year)
-baseline_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.start_year,end_year=constants.end_year)
-
-
+baseline_models_d = generate_year_models(fuel_type=constants.DIESEL, start_year=constants.BASE_YEAR,end_year=constants.end_year)
+baseline_models_p = generate_year_models(fuel_type=constants.PETROL, start_year=constants.BASE_YEAR,end_year=constants.end_year)
 
 
 def add_models(model_a, model_b):
     comb_model = {}
     yr =constants.start_year
+   # print(yr)
     for d_model,p_model in zip(model_a,model_a):
         both_model = [[d+p for d,p in zip(dies,petr)] for dies, petr in zip(d_model._data, p_model._data)]
         comb_model[yr] = both_model
@@ -75,8 +75,7 @@ def get_new_car_count(year_models, baseline_models):
 def generate_next_year(year_models, full_sales, rounded_car_count, fuel):
     latest_year = year_models[-1]
     year = latest_year._year + 1
-    SALE_CONSTANT = 0.71
-    SALE_PERCENTAGE =  SALE_CONSTANT if fuel is constants.PETROL else 1 - SALE_CONSTANT
+    SALE_PERCENTAGE = get_sales_percentage(fuel_type=fuel,year=year)
     
     new_cars_by_f_type = round(full_sales*SALE_PERCENTAGE)
     
@@ -92,8 +91,8 @@ def write_year_model_to_csv(year_data, year, fuel):
     ids = list(range(16,-1,-1))
     [row.insert(0, i) for  i, row in zip(ids, year_data_to_write)]
     year_data_to_write.insert(0, header)
-    csv_file = f'new_models/{fuel}/{year}.csv'
-    with open(csv_file, 'w') as csvfile:
+    csv_file = f'scenario_{constants.scenario_type}/{fuel}/{year}.csv'
+    with open(csv_file, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(year_data_to_write)
 
@@ -102,7 +101,7 @@ def final_step(year, cc, fuel):
     return new_year_model
 
 
-year = 2007
+year = constants.BASE_YEAR
 while year < constants.end_year-1:
     print(year)
     diesel_car_diff, diesel_count_car_count = get_new_car_count(yr_models_d, baseline_models_d)
@@ -124,11 +123,3 @@ for model in yr_models_d:
 
 for model in yr_models_p:
     write_year_model_to_csv(model.get_counts(), model._year, constants.PETROL)
-
-
-    
-
-    
-
-
-

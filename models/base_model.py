@@ -11,13 +11,20 @@ class ConstantBaseModel:
             return self._data[year_to_use]
         else:
             return self._data[year_to_use][cat-1]
-            
+
+    def update_year_constant(self, year:int, values:[int]):
+        year_to_use =  max(min(self._data.keys()),year)
+        self._data[year_to_use] = values
 
 class BaseModel:
     def __init__(self, year, csv_data):
         self._year = year
+        # print(year)
         self._data = [list(map(int, row)) for row in csv_data]
 
+    def __mul__(self, other):
+        product_matrix = [[a*b for a,b in zip(a_row,b_row)] for a_row,b_row in zip(self._data, other._data)]
+        return BaseModel(year=self._year, csv_data=product_matrix)
 
     def get_counts(self, age:int=None, cat:int=None):
         if age is not None:
@@ -50,3 +57,13 @@ class BaseModel:
             new_row = [float(a)*float(b) for a,b in zip(self.get_counts(age=age),model.get_constant(year=year))]
             new_model.append(new_row)
         return new_model
+
+    def give_engine_groupings(self, splits): 
+        grouped_data = []
+        for row in self.get_counts():
+            grouped_data.append([sum(row[split[0]:split[1]+1]) for split in splits])
+        return grouped_data
+    
+
+
+    
