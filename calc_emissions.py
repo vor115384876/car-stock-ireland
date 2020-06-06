@@ -24,7 +24,6 @@ if f_type == 'diesel':
     bio_fuel_dict = {2001: 0, 2002:0, 2003: 0, 2004:0, 2005:0, 2006:0, 2007:0, 2008:0, 2009:0, 2010:0.027, 2011: 0.038, 2012: 0.03, 2013: 0.038, 2014: 0.044, 2015: 0.044, 2016: 0.036, 2017: 0.054, 2018: 0.05}
 
 print(bio_fuel_dict)
-#dist_travelled = ConstantBaseModel(generate_constants(fuel_type=f_type,constant_type=constants.d_travelled))
 #need to figure out a way to chance how the distances are stored
 new_rd_factor = [row[1:] for row in rd_factor]
 new_eff_band = [row[1:] for row in eff_band]

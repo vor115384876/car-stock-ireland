@@ -8,15 +8,10 @@ from utils.generators import generate_constants, generate_year_models, generate_
 f_type = constants.f_type
 
 yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
-#dist_models = generate_dist_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
 rd_factor = generate_constants(fuel_type=f_type,constant_type=constants.r_factor)
 
 print(rd_factor)
 rd_factor.sort(reverse = True)
-
-#vehicle stock 0 - 14 } aggregate 1-5, 5-11, 12-14
-#distance 0-4 {sum of (vehicle stock (0)*eff band (0))+vehicle stock (1) *eff band (1) +.../(sum of total vehicle stock in group 0 - 4)}
-
 
 em_dict = []
 
