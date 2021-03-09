@@ -20,8 +20,6 @@ for index,sample_model in enumerate(yr_models):
     #do i need to create another for loop to go through the distances?
 
     dist_for_yr = dist_models[index]._data
-    #print(dist_for_yr)
-    #print(sample_model._data)
     total_passenger_km = [[float(numcar)*1*float(dt) for numcar,dt in zip(numcars, dist_for_yr_cat)] for numcars, dist_for_yr_cat in zip(sample_model._data, dist_for_yr)]
     ev_passenger_km = sum(sum(total_passenger_km,[]))
     print(base_year)
@@ -37,12 +35,4 @@ with open(csv_file, 'w', newline='') as csvfile:
     writer.writeheader()
     for year in em_dict:
         writer.writerow(year)
-
-    #         electric_split = [total]
-    #         header = ["year","average mileage"]
-    #         pkm_split = pkm_model.give_engine_groupings(electric_split)
-    #         car_count_split = model.give_engine_groupings(electric_split)
-    #         car_count_filtered = car_count_split
-    #         car_count_filtered = [[replace_zeros(a, b) for a, b in zip(r1, r2)] for r1, r2 in zip(car_count_split, car_count_filtered)]
-            
-            
+      

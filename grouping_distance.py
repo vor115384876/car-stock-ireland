@@ -21,10 +21,6 @@ group_6 = [11,11]
 group_7 = [12,13]
 
 
-
-#vehicle stock 0 - 14 } aggregate 0-4, 5-10, 11-13
-#distance 0-4 {sum of (vehicle stock (0)*average distance (0))+vehicle stock (1) *average distance (1) +.../(sum of total vehicle stock in group 0 - 4)}
-
 for model, dist_models in zip(yr_models, dist_models):
     csv_file = f'model_output/{f_type}/distance_grouped/{model._year}_distance_grouped_engine_cc.csv'
     pkm_model = model * dist_models

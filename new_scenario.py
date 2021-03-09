@@ -123,11 +123,3 @@ for model in yr_models_d:
 
 for model in yr_models_p:
     write_year_model_to_csv(model.get_counts(), model._year, constants.PETROL)
-
-
-    
-
-    
-
-
-

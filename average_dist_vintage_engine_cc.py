@@ -47,35 +47,18 @@ for sample_model in yr_models:
    # print(annual_passenger_kilometers)
     annual_pkm = list(map(int, annual_passenger_kilometers))
     print(annual_pkm)
-    
-    # engine_cc_cat = 1
-    # while engine_cc_cat < 15:
-            
-    #     annual_pkm_enginecat = annual_pkm[engine_cc_cat::15]
-    #     print(annual_pkm_enginecat)
-    #     annual_pkm_by_category = sum(annual_pkm_enginecat)
-    #     engine_cc_cat += 1
-    #     #print(annual_pkm_by_category)
 
 PATH = constants.path
 fuel_type = constants.f_type
 year = base_year
 readfile = f'{PATH}/{fuel_type}/average_distance_engine_cc/scenario_0_distance_travelled.csv'
-# with open(readfile, newline='', encoding='utf-8-sig') as f:
-#     data = [row for row in csv.reader(f)]
-    
-#    # gets average distance for engine cc data[year_row][enginecc_catgory]
-#     #enginecc_category_starts at 1, because year data is stored in 0
 
-#     average_distance_for_engine_cc = data[0][year - 2000]
-#     #need to get list of cars of year and of engine cc specified in average_distance_for_engine_cc
 # #opening a file of all the years
 num_car_year = 0
 for year in range(2001,2018):
     readfile = f'{PATH}/{fuel_type}/{year}.csv'
     with open(readfile, newline='', encoding='utf-8-sig') as ff:
         data = [row for row in csv.reader(ff)]
-        #print(data)
     
     readfile = f'{PATH}/{fuel_type}/average_distance_engine_cc/scenario_0_distance_travelled.csv'
     with open(readfile, newline='', encoding='utf-8-sig') as f:
@@ -95,63 +78,9 @@ for year in range(2001,2018):
             average_distance_for_engine_cc = enginecc[(year- 2000)][enginecol]
             
             average_distance_list.append(int(average_distance_for_engine_cc))
-    
-    #print(average_distance_list)
-    #print(average_distance_list[0])
-    #print(average_distance_list[0])
         
-
-            #print(average_distance_for_engine_cc)
     engineccpklist = []
 for listyear in average_distance_list:
     for engine_cc_mileage_average in average_distance_list:
         engineccpkitem = engine_cc_mileage_average*total_engine_cc_stock_for_year
         engineccpklist.append(engineccpkitem)
-    
-
-    #this list prints a list of the average distances
-#print(average_distance_list)
-#print(engineccpklist)
-    #print(total_engine_cc_stock_for_year)
-            
-
-
-
-    
-   # gets average distance for engine cc data[year_row][enginecc_catgory]
-    #enginecc_category_starts at 1, because year data is stored in 0
-            
-
-    #need to get list of cars of year and of engine cc specified in average_distance_for_engine_cc
-#opening a file of all the years
-
-    #print(average_distance_for_engine_cc)
-    #print(total_engine_cc_stock_for_year)
-    
-    #print(total_engine_cc_stock_for_year)
-    
-    
-    
-    
-#average_pkm_for_given_engine_cc_and_year = [stock*average_distance_for_engine_cc for stock in 
-    #info = item[1]  
-#print(average_distance_for_engine_cc)
-
-# readfile = f'{PATH}/{fuel_type}/average_distance_engine_cc/scenario_0_distance_travelled.csv'
-# with open(readfile, newline='', encoding='utf-8-sig') as f:
-
-    
-
-#     #print(sample_model._year, annual_pkm)
-#     dist_dict.append({"year": sample_model._year, "passenger_kilometers": annual_pkm})
-# #print(total_passenger_kilometers)
-#     csv_file = f'distance_cc_vintage/{f_type}/{sample_model._year}.csv'
-#     csv_columns = ["year","passenger_kilometers"]
-#     with open(csv_file, 'w', newline='') as csvfile:
-#             for col in csv.reader(csvfile):
-#                 total += int(col[1])
-#                 print(total)
-#             writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
-#             writer.writeheader()
-#             for year in dist_dict:
-#                 writer.writerow(year)

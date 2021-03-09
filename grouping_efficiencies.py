@@ -13,10 +13,6 @@ eff_band = generate_constants(fuel_type=f_type,constant_type=constants.f_band)
 print(eff_band)
 eff_band.sort(reverse = True)
 
-#vehicle stock 0 - 14 } aggregate 1-5, 5-11, 12-14
-#distance 0-4 {sum of (vehicle stock (0)*eff band (0))+vehicle stock (1) *eff band (1) +.../(sum of total vehicle stock in group 0 - 4)}
-
-
 em_dict = []
 
 if f_type == 'diesel' or 'petrol':
