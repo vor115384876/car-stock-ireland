@@ -6,7 +6,7 @@ from utils.generators import generate_constants, generate_year_models
 
 
 f_type = constants.f_type
-
+scenario_no = constants.scenario_type
 
 yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
 
@@ -29,7 +29,7 @@ em_tax_dict = {0:120,80:170,100:180,110:190,120:200,130:270,140:280,155:390,170:
 
 em_dict = []
 def get_tax_values(vintage, with_rf):
-    if vintage >= 2020:
+    if vintage >= 2008: #change this between 2008 / 2020 for inclusion of new tax rate / exclusion of new tax rate
         tax_values = []
         if with_rf:
             consumption_pkm = consumption_per_km
@@ -61,7 +61,7 @@ for model in yr_models:
     em_dict.append({"year": model._year, "no_on_road" : annual_total_rev_amt_norf, "with_on_road_factor": annual_total_rev_amt  })
 
 #this code outputs the year emissions to a csv
-csv_file = f'model_output/{f_type}-revenueforgone{constants.name}.csv'
+csv_file = f'model_output/{f_type}-revenueforgone{constants.name}-scenario{scenario_no}.csv'
 csv_columns = ["year","no_on_road","with_on_road_factor"]
 with open(csv_file, 'w', newline='') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=csv_columns)

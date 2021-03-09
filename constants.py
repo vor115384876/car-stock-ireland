@@ -17,17 +17,15 @@ class constants:
     
 
     # change these
-    f_type = DIESEL
-    scenario_type = 1
-    #scenario 0 = actual sales and emissions
-    #scenario 1 = engine cc and sales proportion of petrol/diesel does not change
-    #scenario 2 = 3% diesel sale growth
-    #scenario 3 = 2% diesel sale growth
-    #scenario 4 = 1% diesel sale growth
+    f_type = PETROL
+    scenario_type = 0
 
-    baseline_d_travelled = "scenario_1_distance_travelled"
-    baseline_path = "scenario_1"
-    baseline_name = "-scenario_1"
+    #scenario 0 = actual sales and emissions
+    #scenario 1 = counterfactual - sales similar proportions relative to EU/Ireland relationship prior to 2007
+
+    baseline_d_travelled = "scenario_0_distance_travelled"
+    baseline_path = "scenario_0"
+    baseline_name = "-scenario_0"
 
     path = f'scenario_{scenario_type}'
     name = f'-scenario_{scenario_type}'

@@ -8,15 +8,20 @@ from utils.generators import generate_constants, generate_year_models, generate_
 f_type = constants.f_type
 yr_models = generate_year_models(fuel_type=f_type, start_year=constants.start_year,end_year=constants.end_year, path=constants.path)
 
-smol_bois = [0,4]
-medium_bois = [5,10]
-fat_lads = [11,14]
-splits = [smol_bois, medium_bois, fat_lads]
-header = ["year","<1300cc","1300cc - 1900cc",">1900cc"]
+group_1 = [0,0]
+group_2 = [1,3]
+group_3 = [4,6]
+group_4 = [7,8]
+group_5 = [9,10]
+group_6 = [11,11]
+group_7 = [12,13]
+
+splits = [group_1, group_2, group_3, group_4, group_5, group_6, group_7]
+header = ["year","900","900 - 1200","1201 - 1500", "1501 - 1700", "1701-1900", "1901-2100", "2100"]
 
 
 for model in yr_models:
-    csv_file = f'model_output/{f_type}/{model._year}-vintage_grouped_engine_cc.csv'
+    csv_file = f'model_output/{f_type}/{model._year}-vintage_grouped_engine_cc_for_leap.csv'
     with open(csv_file, 'w', newline='') as csvfile:
         data_to_write = model.give_engine_groupings(splits)
         ids = list(range(0,18))
